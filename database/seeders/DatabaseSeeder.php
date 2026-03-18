@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Memory;
+use App\Models\Message;
 use App\Models\Note;
 use App\Models\Task;
 use App\Models\User;
@@ -67,6 +68,23 @@ class DatabaseSeeder extends Seeder
             'type' => 'date',
             'memory_date' => now()->addDays(15)->toDateString(),
             'visibility' => 'shared',
+        ]);
+
+        // Seed a small chat history between the two users
+        Message::query()->firstOrCreate([
+            'sender_id' => $userOne->id,
+            'receiver_id' => $userTwo->id,
+            'message' => 'Hey! How are you doing today?',
+        ], [
+            'seen_at' => now(),
+        ]);
+
+        Message::query()->firstOrCreate([
+            'sender_id' => $userTwo->id,
+            'receiver_id' => $userOne->id,
+            'message' => 'I am doing great! Ready for the weekend?',
+        ], [
+            'seen_at' => now(),
         ]);
     }
 }
