@@ -1,0 +1,34 @@
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class StoreMemoryRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
+    public function rules(): array
+    {
+        return [
+            'title' => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string'],
+            'type' => ['required', 'in:memory,date,letter,achievement'],
+            'memory_date' => ['nullable', 'date'],
+            'visibility' => ['nullable', 'in:private,shared'],
+            'unlock_at' => ['nullable', 'date'],
+            'file' => ['nullable', 'file', 'max:10240'],
+        ];
+    }
+}
