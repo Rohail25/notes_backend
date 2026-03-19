@@ -14,10 +14,8 @@ RUN composer install --no-dev --optimize-autoloader
 
 RUN chmod -R 777 storage bootstrap/cache
 
-RUN php artisan config:clear && \
-    php artisan route:clear && \
-    php artisan cache:clear
+RUN php artisan optimize:clear
 
 EXPOSE 8080
 
-CMD php -S 0.0.0.0:${PORT:-8080} -t public public/index.php
+CMD php -S 0.0.0.0:${PORT:-8080} -t public
