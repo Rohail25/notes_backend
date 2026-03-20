@@ -13,7 +13,8 @@ class AuthController extends Controller
 {
     public function login(LoginRequest $request): JsonResponse
     {
-        $credentials = $request->validated();
+       try{
+         $credentials = $request->validated();
 
         if (! Auth::attempt($credentials)) {
             return response()->json(['message' => 'Invalid credentials.'], 422);
@@ -26,6 +27,9 @@ class AuthController extends Controller
             'token' => $token,
             'user' => $user,
         ]);
+       }catch(\Exception $e){
+        return response()->json(['message' => 'An error occurred during login. Please try again later.'], 500);
+       }
     }
 
     public function me(): JsonResponse

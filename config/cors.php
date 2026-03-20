@@ -21,11 +21,12 @@ return [
 
     // Allow browser requests from the SPA running on localhost and the deployed frontend.
     // When 'supports_credentials' is true, '*' is not allowed here.
-    'allowed_origins' => [
-        'http://localhost:5173',
-        'http://127.0.0.1:5173',
-        'https://notesbackend-production-b3d4.up.railway.app',
-    ],
+    // 'allowed_origins' => [
+    //     'http://localhost:5173',
+    //     'http://127.0.0.1:5173',
+    //     'https://notesbackend-production-b3d4.up.railway.app',
+    // ],
+    'allowed_origins' => ['*'],
 
     'allowed_origins_patterns' => [],
 

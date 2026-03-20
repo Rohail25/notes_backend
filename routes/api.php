@@ -8,6 +8,11 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+
+Route::options('/{any}', function () {
+    return response()->json([], 200);
+})->where('any', '.*');
 
 Route::post('/login', [AuthController::class, 'login']);
 
