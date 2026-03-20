@@ -14,6 +14,10 @@ Route::options('/{any}', function () {
     return response()->json([], 200);
 })->where('any', '.*');
 
+Route::get('/test', function () {
+    return response()->json(['ok' => true]);
+});
+
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function (): void {

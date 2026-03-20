@@ -1,8 +1,8 @@
 FROM php:8.2-cli
 
 RUN apt-get update && apt-get install -y \
-    git unzip curl libpq-dev \
-    && docker-php-ext-install pdo pdo_pgsql
+    git unzip curl libpq-dev libzip-dev \
+    && docker-php-ext-install pdo pdo_pgsql zip
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
@@ -10,14 +10,12 @@ WORKDIR /app
 
 COPY . .
 
-RUN composer install --no-dev --optimize-autoloader
+ENV COMPOSER_MEMORY_LIMIT=-1
 
-# Fix permissions
+RUN composer install --no-dev --optimize-autoloader --no-scripts
+
 RUN chmod -R 777 storage bootstrap/cache
-
-# ❌ REMOVE artisan commands from build (important)
 
 EXPOSE 8080
 
-# ✅ Use Railway PORT correctly
-CMD php -S 0.0.0.0:$PORT -t public
+CMD php artisan config:clear && php artisan cache:clear && php -S 0.0.0.0:$PORT -t public
