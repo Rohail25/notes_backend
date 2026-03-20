@@ -12,10 +12,12 @@ COPY . .
 
 RUN composer install --no-dev --optimize-autoloader
 
+# Fix permissions
 RUN chmod -R 777 storage bootstrap/cache
 
-RUN php artisan optimize:clear
+# ❌ REMOVE artisan commands from build (important)
 
 EXPOSE 8080
 
-CMD php -S 0.0.0.0:${PORT:-8080} -t public
+# ✅ Use Railway PORT correctly
+CMD php -S 0.0.0.0:$PORT -t public
