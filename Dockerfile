@@ -16,6 +16,6 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts
 
 RUN chmod -R 777 storage bootstrap/cache
 
-EXPOSE 8080
+EXPOSE 8000
 
-CMD php artisan config:clear && php artisan cache:clear && php -S 0.0.0.0:$PORT -t public
+CMD sh -c "php artisan config:clear && php artisan cache:clear && php -S 0.0.0.0:${PORT} -t public"
