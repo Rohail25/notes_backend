@@ -20,7 +20,8 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts
 # Fix permissions
 RUN chmod -R 777 storage bootstrap/cache
 
-EXPOSE 8000
+# ❌ Remove hardcoded EXPOSE
+# EXPOSE 1518   <-- REMOVE THIS LINE
 
-# ❌ IMPORTANT: use Railway dynamic port via sh -c
-CMD sh -c "php artisan config:clear && php artisan cache:clear && php -S 0.0.0.0:${PORT} -t public"
+# ✅ Use Railway dynamic port
+CMD ["sh", "-c", "php artisan config:clear && php artisan cache:clear && php -S 0.0.0.0:$PORT -t public"]
