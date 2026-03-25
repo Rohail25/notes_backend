@@ -1,27 +1,18 @@
-FROM php:8.2-fpm
+FROM php:8.2-cli
 
-# Install dependencies
 RUN apt-get update && apt-get install -y \
-    git unzip curl libpq-dev libzip-dev nginx supervisor \
+    git unzip curl libpq-dev libzip-dev \
     && docker-php-ext-install pdo pdo_pgsql zip
 
-# Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
 COPY . .
 
-# Install Laravel dependencies
-RUN composer install --no-dev --optimize-autoloader --no-scripts
+RUN composer install --no-dev --optimize-autoloader
 
-# Fix permissions
 RUN chmod -R 777 storage bootstrap/cache
 
-# Copy Nginx config
-COPY docker/nginx.conf /etc/nginx/sites-available/default
+EXPOSE 8080
 
-# Expose port (Railway maps dynamic $PORT to container)
-EXPOSE 80
-
-# Start Supervisor to run php-fpm + nginx
-CMD ["/usr/bin/supervisord", "-n"]
+CMD ["sh", "-c", "php artisan config:clear && php artisan route:clear && php artisan cache:clear && php artisan serve --host=0.0.0.0 --port=${PORT:-8080}"]
