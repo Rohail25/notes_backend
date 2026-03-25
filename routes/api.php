@@ -13,6 +13,23 @@ use Illuminate\Http\Request;
 Route::options('/{any}', function () {
     return response()->json([], 200);
 })->where('any', '.*');
+Route::get('/env-check', function () {
+    return [
+        'app_key' => config('app.key'),
+        'app_env' => config('app.env'),
+        'debug' => config('app.debug'),
+    ];
+});
+Route::get('/debug', function () {
+    try {
+        return 'Laravel working';
+    } catch (\Throwable $e) {
+        return $e->getMessage();
+    }
+});
+Route::get('/logs', function () {
+    return response()->file(storage_path('logs/laravel.log'));
+});
 
 Route::get('/test', function () {
     return response()->json(['ok' => true]);
