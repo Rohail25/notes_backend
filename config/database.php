@@ -94,11 +94,13 @@ return [
             'charset' => 'utf8',
             'prefix' => '',
             'schema' => 'public',
-            'sslmode' =>  'require',
-            'options' => [
+
+            // 🔥 REQUIRED FOR SUPABASE
+            'sslmode' => 'require',
+
+            'options' => extension_loaded('pdo_pgsql') ? [
                 PDO::ATTR_EMULATE_PREPARES => true,
-                // PDO::PGSQL_ATTR_SSL_MODE => 'require',
-            ],
+            ] : [],
         ],
 
         'sqlsrv' => [
