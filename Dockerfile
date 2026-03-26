@@ -13,6 +13,8 @@ RUN composer install --no-dev --optimize-autoloader
 
 RUN chmod -R 777 storage bootstrap/cache
 
+RUN php artisan config:clear && php artisan cache:clear
+
 ENV PORT=8080
 
 EXPOSE 8080
