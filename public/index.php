@@ -6,9 +6,14 @@ error_reporting(E_ALL);
 
 try {
 
-    require __DIR__.'/../vendor/autoload.php';
+    require __DIR__ . '/../vendor/autoload.php';
 
-    $app = require_once __DIR__.'/../bootstrap/app.php';
+    if (!file_exists(__DIR__ . '/../vendor/autoload.php')) {
+        echo "VENDOR MISSING";
+        die;
+    }
+
+    $app = require_once __DIR__ . '/../bootstrap/app.php';
 
     $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
 
@@ -19,7 +24,6 @@ try {
     $response->send();
 
     $kernel->terminate($request, $response);
-
 } catch (\Throwable $e) {
 
     echo "<h2>ERROR:</h2>";
