@@ -94,9 +94,10 @@ return [
             'charset' => 'utf8',
             'prefix' => '',
             'schema' => 'public',
-            'sslmode' => env('DB_SSLMODE', 'require'),
+            'sslmode' =>  'require',
             'options' => [
                 PDO::ATTR_EMULATE_PREPARES => true,
+                // PDO::PGSQL_ATTR_SSL_MODE => 'require',
             ],
         ],
 
